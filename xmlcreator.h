@@ -18,7 +18,8 @@ public:
     explicit XMLCreator(const Marketplace* db, QWidget *parent = nullptr);
 
 signals:
-    void Authentification(const QString& name, const QString& pass);
+    void Authentification(const QString& name, const QString& pass,
+                          const QString& host);
     void ButtonSignal();
 
 public slots:
@@ -35,7 +36,6 @@ private:
 
 private:
     QWidget* wgt;
-    QWidget* w;
 
     QPushButton* pcmdOK;
     QPushButton* pcmdCancel;
@@ -43,6 +43,7 @@ private:
 
     QLineEdit*  pnameEdit;
     QLineEdit* ppassEdit;
+    QLineEdit* phostEdit;
 
 
     const Marketplace* pdb;
@@ -54,6 +55,7 @@ private:
 
     QLabel* pnameLbl;
     QLabel* ppassLbl;
+    QLabel* phostLbl;
 
     QGridLayout* p_grid;
     QHBoxLayout* phbxH;

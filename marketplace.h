@@ -24,7 +24,8 @@ signals:
 
 public slots:
 
-    void CreateConnection(const QString& name,const QString& password);
+    void CreateConnection(const QString& name,const QString& password,
+                          const QString& host);
     void ShopButtonClicked();
 
 private:

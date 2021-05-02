@@ -9,21 +9,15 @@
 
 
 
-XMLCreator::XMLCreator(const Marketplace* db, QWidget *parent) : QMainWindow(parent), wgt(new QWidget(this)),
-                                          w(new QWidget),
-                                          pcmdOK(new QPushButton("OK")),
-                                          pcmdCancel(new QPushButton("Cancel")),
+XMLCreator::XMLCreator(const Marketplace* db, QWidget *parent) : QMainWindow(parent),
+                                          wgt(new QWidget(this)),
                                           pcmdShops (new QPushButton("Open Shops")),
-                                          pnameEdit(new QLineEdit), ppassEdit(new QLineEdit),
                                           pdb(db), text(new QPlainTextEdit),
-                                          pnameLbl(new QLabel("User Name:")),
-                                          ppassLbl(new QLabel("Password:")),
-                                          p_grid(new QGridLayout), phbxH(new QHBoxLayout),
+
                                           pvbxl(new QVBoxLayout)
 
 
 {
-  connect(pcmdCancel, SIGNAL(clicked()), this, SLOT(Quit()));
   CreateAuthWindow();
   SetCenter();
   CheckConnection();
@@ -33,20 +27,35 @@ XMLCreator::XMLCreator(const Marketplace* db, QWidget *parent) : QMainWindow(par
 void XMLCreator::CreateAuthWindow()
 {
 
+        QWidget* pwgt = new QWidget;
+        p_grid =     new QGridLayout;
+        pnameEdit =  new QLineEdit;
+        ppassEdit =  new QLineEdit;
+        phostEdit =  new QLineEdit;
+        pnameLbl =   new QLabel("User Name:");
+        ppassLbl =   new QLabel("Password:");
+        phostLbl =   new QLabel("Host:");
+        pcmdOK =     new QPushButton("OK");
+        pcmdCancel = new QPushButton("Cancel");
+
 
         ppassEdit->setEchoMode(QLineEdit::EchoMode::Password);
+        phostEdit->setText("localhost");
 
         p_grid->setContentsMargins(5, 5, 5, 5);
         p_grid->addWidget(pnameLbl, 0, 0);
         p_grid->addWidget(ppassLbl, 1, 0);
+        p_grid->addWidget(phostLbl, 2, 0);
         p_grid->addWidget(pnameEdit, 0, 1);
         p_grid->addWidget(ppassEdit, 1, 1);
+        p_grid->addWidget(phostEdit, 2, 1);
 
+        phbxH = new QHBoxLayout;
         phbxH->addWidget(pcmdOK);
         phbxH->addWidget(pcmdCancel);
-        p_grid->addLayout(phbxH, 2, 1);
-        wgt->setLayout(p_grid);
-        setCentralWidget(wgt);
+        p_grid->addLayout(phbxH, 3, 1);
+        pwgt->setLayout(p_grid);
+        setCentralWidget(pwgt);
         setWindowTitle("MYSQL Server");
         resize(140,140);
 }
@@ -61,15 +70,16 @@ void XMLCreator::SetCenter()
 void XMLCreator::CheckConnection()
 {
     connect(pcmdOK,  SIGNAL(clicked()), this, SLOT(GetClicked()));
-    connect(this,    SIGNAL(Authentification(QString,QString)), pdb,
-                     SLOT(CreateConnection(QString,QString)));
+    connect(this,    SIGNAL(Authentification(QString,QString,QString)), pdb,
+                     SLOT(CreateConnection(QString,QString,QString)));
+    connect(pcmdCancel, SIGNAL(clicked()), this, SLOT(Quit()));
 }
 
 
 void XMLCreator::GetClicked()
 {
     if(pcmdOK == sender())
-        emit Authentification(pnameEdit->text(), ppassEdit->text());
+        emit Authentification(pnameEdit->text(), ppassEdit->text(), phostEdit->text());
 
     if(pcmdShops == sender())
         emit ButtonSignal();
@@ -102,14 +112,14 @@ void XMLCreator::GetStatus(bool status)
       connect(this, SIGNAL(ButtonSignal()), pdb, SLOT(ShopButtonClicked()));
 
 
-      w = new QWidget;
+      wgt = new QWidget;
       pvbxl->setSpacing(5);
       pvbxl->addWidget(&view);
       pvbxl->addWidget(pcmdShops);
 
       view.setModel(&model);
-      w->setLayout(pvbxl);
-      setCentralWidget(w);
+      wgt->setLayout(pvbxl);
+      setCentralWidget(wgt);
       SetCenter();
       resize(920, 750);
   }

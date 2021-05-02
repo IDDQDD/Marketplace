@@ -18,12 +18,13 @@ Marketplace::Marketplace(QWidget* parent): QWidget(parent),
 //CreateXmlFile();
 }
 
- void Marketplace::CreateConnection(const QString& name, const QString& password)
+ void Marketplace::CreateConnection(const QString& name, const QString& password,
+                                    const QString& host)
 {
 
         connect(this, SIGNAL(ConnectionStatus(bool)), sender(), SLOT(GetStatus(bool)));
          db.setUserName(name);
-         db.setHostName("localhost");
+         db.setHostName(host);
          db.setPassword(password);
          db.setDatabaseName("mysql");
          if(!db.open())
