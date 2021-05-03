@@ -13,7 +13,6 @@ XMLCreator::XMLCreator(const Marketplace* db, QWidget *parent) : QMainWindow(par
                                           wgt(new QWidget(this)),
                                           pcmdShops (new QPushButton("Open Shops")),
                                           pdb(db), text(new QPlainTextEdit),
-
                                           pvbxl(new QVBoxLayout)
 
 
@@ -27,7 +26,7 @@ XMLCreator::XMLCreator(const Marketplace* db, QWidget *parent) : QMainWindow(par
 void XMLCreator::CreateAuthWindow()
 {
 
-        QWidget* pwgt = new QWidget;
+        authwindow = new QWidget;
         p_grid =     new QGridLayout;
         pnameEdit =  new QLineEdit;
         ppassEdit =  new QLineEdit;
@@ -37,6 +36,7 @@ void XMLCreator::CreateAuthWindow()
         phostLbl =   new QLabel("Host:");
         pcmdOK =     new QPushButton("OK");
         pcmdCancel = new QPushButton("Cancel");
+        pcmdOK->setDefault(true);
 
 
         ppassEdit->setEchoMode(QLineEdit::EchoMode::Password);
@@ -54,8 +54,8 @@ void XMLCreator::CreateAuthWindow()
         phbxH->addWidget(pcmdOK);
         phbxH->addWidget(pcmdCancel);
         p_grid->addLayout(phbxH, 3, 1);
-        pwgt->setLayout(p_grid);
-        setCentralWidget(pwgt);
+        authwindow->setLayout(p_grid);
+        setCentralWidget(authwindow);
         setWindowTitle("MYSQL Server");
         resize(140,140);
 }

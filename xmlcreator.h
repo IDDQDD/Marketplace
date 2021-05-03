@@ -36,6 +36,7 @@ private:
 
 private:
     QWidget* wgt;
+    QWidget* authwindow;
 
     QPushButton* pcmdOK;
     QPushButton* pcmdCancel;
